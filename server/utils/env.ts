@@ -17,3 +17,9 @@ export function getDB() {
 	const env = process.env.DATABASE_URL
 	return checkEnv(env, 'DATABASE_URL')
 }
+
+export function getSecret() {
+	const env = process.env.SESSION_SECRET
+	return checkEnv(env, 'SESSION_SECRET')
+}
+

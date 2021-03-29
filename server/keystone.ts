@@ -5,22 +5,8 @@ import {
 } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
 
-import { getDB } from './utils/env'
+import { getDB, getSecret } from './utils/env'
 import { lists } from './schemas/schema';
-
-let sessionSecret = process.env.SESSION_SECRET;
-
-if (!sessionSecret) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error(
-      'The SESSION_SECRET environment variable must be set in production'
-    );
-  } else {
-    sessionSecret = '-- DEV COOKIE SECRET; CHANGE ME --';
-  }
-}
-
-let sessionMaxAge = 60 * 60 * 24 * 30; // 30 days
 
 const auth = createAuth({
   listKey: 'User',
@@ -43,8 +29,8 @@ export default auth.withAuth(
     lists,
     session: withItemData(
       statelessSessions({
-        maxAge: sessionMaxAge,
-        secret: sessionSecret,
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        secret: getSecret(),
       }),
       { User: 'name' }
     ),
