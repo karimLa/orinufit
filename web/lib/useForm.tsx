@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from 'react';
 function useForm<T>(initial: T = {} as T) {
   const [inputs, setInputs] = useState(initial);
 
-  function onChange(e: ChangeEvent<HTMLInputElement>) {
+  function onChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     let { name, value, type } = e.target;
 
     if (value && type === 'number') {
@@ -13,7 +13,7 @@ function useForm<T>(initial: T = {} as T) {
 
     if (value && type === 'file') {
       // @ts-ignore
-      value = e.target.files[0];
+      [value] = e.target.files;
     }
 
     setInputs((state) => ({ ...state, [name]: value }));

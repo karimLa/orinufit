@@ -1,44 +1,68 @@
 import useForm from '@/lib/useForm';
+import { FormEvent } from 'react';
+import Form from './styles/Form';
 
 function ProductCreate() {
-  const { inputs, onChange, clearForm, resetFrom } = useForm({
+  const { inputs, onChange } = useForm({
+    image: '',
     name: '',
     description: '',
     price: 0,
   });
 
-  return (
-    <form>
-      <label htmlFor='name'>
-        Name:
-        <input
-          type='text'
-          id='name'
-          name='name'
-          placeholder='Name'
-          value={inputs.name}
-          onChange={onChange}
-        />
-      </label>
-      <label htmlFor='price'>
-        Price:
-        <input
-          type='number'
-          id='price'
-          name='price'
-          placeholder='Price'
-          value={inputs.price}
-          onChange={onChange}
-        />
-      </label>
+  function createProduct(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log(inputs);
+  }
 
-      <button type='button' onClick={clearForm}>
-        clear
-      </button>
-      <button type='button' onClick={resetFrom}>
-        reset
-      </button>
-    </form>
+  return (
+    <Form onSubmit={createProduct}>
+      <fieldset>
+        <label htmlFor='image'>
+          Image:
+          <input
+            type='file'
+            id='image'
+            name='image'
+            required
+            onChange={onChange}
+          />
+        </label>
+        <label htmlFor='name'>
+          Name:
+          <input
+            type='text'
+            id='name'
+            name='name'
+            placeholder='Name'
+            value={inputs.name}
+            onChange={onChange}
+          />
+        </label>
+        <label htmlFor='price'>
+          Price:
+          <input
+            type='number'
+            id='price'
+            name='price'
+            placeholder='Price'
+            value={inputs.price}
+            onChange={onChange}
+          />
+        </label>
+        <label htmlFor='description'>
+          Description:
+          <textarea
+            id='description'
+            name='description'
+            placeholder='Description'
+            value={inputs.description}
+            onChange={onChange}
+          />
+        </label>
+        <button type='submit'>+ Add Product</button>
+      </fieldset>
+    </Form>
   );
 }
 
