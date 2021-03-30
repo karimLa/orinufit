@@ -9,6 +9,6 @@ function checkEnv(env: string | undefined, name: string) {
 }
 
 export function getEndpoint() {
-	const ENDPOINT = process.env.ENDPOINT
-	return checkEnv(ENDPOINT, 'ENDPOINT')
+	const env = process.env.NEXT_PUBLIC_ENDPOINT
+	return checkEnv(env, 'NEXT_PUBLIC_ENDPOINT')
 }
