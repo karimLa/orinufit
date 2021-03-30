@@ -27,3 +27,18 @@ export function getWebUrl() {
 	const env = process.env.WEB_URL
 	return checkEnv(env, 'WEB_URL')
 }
+
+export function getCloudinaryCloudName() {
+	const env = process.env.CLOUDINARY_CLOUD_NAME
+	return checkEnv(env, 'CLOUDINARY_CLOUD_NAME')
+}
+
+export function getCloudinaryKey() {
+	const env = process.env.CLOUDINARY_KEY
+	return checkEnv(env, 'CLOUDINARY_KEY')
+}
+
+export function getCloudinarySecret() {
+	const env = process.env.CLOUDINARY_SECRET
+	return checkEnv(env, 'CLOUDINARY_SECRET')
+}
