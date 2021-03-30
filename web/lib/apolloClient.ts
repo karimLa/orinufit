@@ -13,6 +13,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | null;
 
 function createApolloClient() {
 	return new ApolloClient({
+		ssrMode: typeof window === 'undefined',
 		link: ApolloLink.from([
 			onError(({ graphQLErrors, networkError }) => {
 				if (graphQLErrors)
