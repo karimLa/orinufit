@@ -5,7 +5,7 @@ import {
 } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
 
-import { getDB, getSecret } from './utils/env'
+import { getDB, getSecret, getWebUrl } from './utils/env'
 import { lists } from './schemas/schema';
 
 const auth = createAuth({
@@ -19,6 +19,12 @@ const auth = createAuth({
 
 export default auth.withAuth(
   config({
+    server: {
+      cors: {
+        origin: [getWebUrl()],
+        credentials: true
+      }
+    },
     db: {
       adapter: 'mongoose',
       url: getDB()

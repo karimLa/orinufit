@@ -23,3 +23,7 @@ export function getSecret() {
 	return checkEnv(env, 'SESSION_SECRET')
 }
 
+export function getWebUrl() {
+	const env = process.env.WEB_URL
+	return checkEnv(env, 'WEB_URL')
+}
