@@ -1,18 +1,9 @@
-input PostRelateToManyInput {
-  create: [PostCreateInput]
-  connect: [PostWhereUniqueInput]
-  disconnect: [PostWhereUniqueInput]
-  disconnectAll: Boolean
-}
-
 """ A keystone list """
 type User {
   id: ID!
   name: String
   email: String
   password_is_set: Boolean
-  posts(where: PostWhereInput, search: String, sortBy: [SortPostsBy!], orderBy: String, first: Int, skip: Int): [Post!]!
-  _postsMeta(where: PostWhereInput, search: String, sortBy: [SortPostsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
 }
 
 input UserWhereInput {
@@ -59,15 +50,6 @@ input UserWhereInput {
   email_in: [String]
   email_not_in: [String]
   password_is_set: Boolean
-
-  """ condition must be true for all nodes """
-  posts_every: PostWhereInput
-
-  """ condition must be true for at least 1 node """
-  posts_some: PostWhereInput
-
-  """ condition must be false for all nodes """
-  posts_none: PostWhereInput
 }
 
 input UserWhereUniqueInput {
@@ -81,15 +63,12 @@ enum SortUsersBy {
   name_DESC
   email_ASC
   email_DESC
-  posts_ASC
-  posts_DESC
 }
 
 input UserUpdateInput {
   name: String
   email: String
   password: String
-  posts: PostRelateToManyInput
 }
 
 input UsersUpdateInput {
@@ -101,227 +80,10 @@ input UserCreateInput {
   name: String
   email: String
   password: String
-  posts: PostRelateToManyInput
 }
 
 input UsersCreateInput {
   data: UserCreateInput
-}
-
-type Post_content_DocumentField {
-  document(hydrateRelationships: Boolean! = false): JSON!
-}
-
-input UserRelateToOneInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: UserWhereUniqueInput
-  disconnectAll: Boolean
-}
-
-input TagRelateToManyInput {
-  create: [TagCreateInput]
-  connect: [TagWhereUniqueInput]
-  disconnect: [TagWhereUniqueInput]
-  disconnectAll: Boolean
-}
-
-""" A keystone list """
-type Post {
-  id: ID!
-  title: String
-  status: String
-  content: Post_content_DocumentField
-  publishDate: String
-  author: User
-  tags(where: TagWhereInput, search: String, sortBy: [SortTagsBy!], orderBy: String, first: Int, skip: Int): [Tag!]!
-  _tagsMeta(where: TagWhereInput, search: String, sortBy: [SortTagsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
-}
-
-input PostWhereInput {
-  AND: [PostWhereInput]
-  OR: [PostWhereInput]
-  id: ID
-  id_not: ID
-  id_in: [ID]
-  id_not_in: [ID]
-  title: String
-  title_not: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  title_i: String
-  title_not_i: String
-  title_contains_i: String
-  title_not_contains_i: String
-  title_starts_with_i: String
-  title_not_starts_with_i: String
-  title_ends_with_i: String
-  title_not_ends_with_i: String
-  title_in: [String]
-  title_not_in: [String]
-  status: String
-  status_not: String
-  status_contains: String
-  status_not_contains: String
-  status_starts_with: String
-  status_not_starts_with: String
-  status_ends_with: String
-  status_not_ends_with: String
-  status_i: String
-  status_not_i: String
-  status_contains_i: String
-  status_not_contains_i: String
-  status_starts_with_i: String
-  status_not_starts_with_i: String
-  status_ends_with_i: String
-  status_not_ends_with_i: String
-  status_in: [String]
-  status_not_in: [String]
-  publishDate: String
-  publishDate_not: String
-  publishDate_lt: String
-  publishDate_lte: String
-  publishDate_gt: String
-  publishDate_gte: String
-  publishDate_in: [String]
-  publishDate_not_in: [String]
-  author: UserWhereInput
-  author_is_null: Boolean
-
-  """ condition must be true for all nodes """
-  tags_every: TagWhereInput
-
-  """ condition must be true for at least 1 node """
-  tags_some: TagWhereInput
-
-  """ condition must be false for all nodes """
-  tags_none: TagWhereInput
-}
-
-input PostWhereUniqueInput {
-  id: ID!
-}
-
-enum SortPostsBy {
-  id_ASC
-  id_DESC
-  title_ASC
-  title_DESC
-  status_ASC
-  status_DESC
-  publishDate_ASC
-  publishDate_DESC
-  author_ASC
-  author_DESC
-  tags_ASC
-  tags_DESC
-}
-
-input PostUpdateInput {
-  title: String
-  status: String
-  content: JSON
-  publishDate: String
-  author: UserRelateToOneInput
-  tags: TagRelateToManyInput
-}
-
-input PostsUpdateInput {
-  id: ID!
-  data: PostUpdateInput
-}
-
-input PostCreateInput {
-  title: String
-  status: String
-  content: JSON
-  publishDate: String
-  author: UserRelateToOneInput
-  tags: TagRelateToManyInput
-}
-
-input PostsCreateInput {
-  data: PostCreateInput
-}
-
-""" A keystone list """
-type Tag {
-  id: ID!
-  name: String
-  posts(where: PostWhereInput, search: String, sortBy: [SortPostsBy!], orderBy: String, first: Int, skip: Int): [Post!]!
-  _postsMeta(where: PostWhereInput, search: String, sortBy: [SortPostsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
-}
-
-input TagWhereInput {
-  AND: [TagWhereInput]
-  OR: [TagWhereInput]
-  id: ID
-  id_not: ID
-  id_in: [ID]
-  id_not_in: [ID]
-  name: String
-  name_not: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
-  name_i: String
-  name_not_i: String
-  name_contains_i: String
-  name_not_contains_i: String
-  name_starts_with_i: String
-  name_not_starts_with_i: String
-  name_ends_with_i: String
-  name_not_ends_with_i: String
-  name_in: [String]
-  name_not_in: [String]
-
-  """ condition must be true for all nodes """
-  posts_every: PostWhereInput
-
-  """ condition must be true for at least 1 node """
-  posts_some: PostWhereInput
-
-  """ condition must be false for all nodes """
-  posts_none: PostWhereInput
-}
-
-input TagWhereUniqueInput {
-  id: ID!
-}
-
-enum SortTagsBy {
-  id_ASC
-  id_DESC
-  name_ASC
-  name_DESC
-  posts_ASC
-  posts_DESC
-}
-
-input TagUpdateInput {
-  name: String
-  posts: PostRelateToManyInput
-}
-
-input TagsUpdateInput {
-  id: ID!
-  data: TagUpdateInput
-}
-
-input TagCreateInput {
-  name: String
-  posts: PostRelateToManyInput
-}
-
-input TagsCreateInput {
-  data: TagCreateInput
 }
 
 """
@@ -522,42 +284,6 @@ type Mutation {
 
   """ Delete multiple User items by ID. """
   deleteUsers(ids: [ID!]): [User]
-
-  """ Create a single Post item. """
-  createPost(data: PostCreateInput): Post
-
-  """ Create multiple Post items. """
-  createPosts(data: [PostsCreateInput]): [Post]
-
-  """ Update a single Post item by ID. """
-  updatePost(id: ID!, data: PostUpdateInput): Post
-
-  """ Update multiple Post items by ID. """
-  updatePosts(data: [PostsUpdateInput]): [Post]
-
-  """ Delete a single Post item by ID. """
-  deletePost(id: ID!): Post
-
-  """ Delete multiple Post items by ID. """
-  deletePosts(ids: [ID!]): [Post]
-
-  """ Create a single Tag item. """
-  createTag(data: TagCreateInput): Tag
-
-  """ Create multiple Tag items. """
-  createTags(data: [TagsCreateInput]): [Tag]
-
-  """ Update a single Tag item by ID. """
-  updateTag(id: ID!, data: TagUpdateInput): Tag
-
-  """ Update multiple Tag items by ID. """
-  updateTags(data: [TagsUpdateInput]): [Tag]
-
-  """ Delete a single Tag item by ID. """
-  deleteTag(id: ID!): Tag
-
-  """ Delete multiple Tag items by ID. """
-  deleteTags(ids: [ID!]): [Tag]
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult!
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   endSession: Boolean!
@@ -606,30 +332,6 @@ type Query {
 
   """ Retrieve the meta-data for the User list. """
   _UsersMeta: _ListMeta
-
-  """ Search for all Post items which match the where clause. """
-  allPosts(where: PostWhereInput, search: String, sortBy: [SortPostsBy!], orderBy: String, first: Int, skip: Int): [Post]
-
-  """ Search for the Post item with the matching ID. """
-  Post(where: PostWhereUniqueInput!): Post
-
-  """ Perform a meta-query on all Post items which match the where clause. """
-  _allPostsMeta(where: PostWhereInput, search: String, sortBy: [SortPostsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
-
-  """ Retrieve the meta-data for the Post list. """
-  _PostsMeta: _ListMeta
-
-  """ Search for all Tag items which match the where clause. """
-  allTags(where: TagWhereInput, search: String, sortBy: [SortTagsBy!], orderBy: String, first: Int, skip: Int): [Tag]
-
-  """ Search for the Tag item with the matching ID. """
-  Tag(where: TagWhereUniqueInput!): Tag
-
-  """ Perform a meta-query on all Tag items which match the where clause. """
-  _allTagsMeta(where: TagWhereInput, search: String, sortBy: [SortTagsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
-
-  """ Retrieve the meta-data for the Tag list. """
-  _TagsMeta: _ListMeta
 
   """ Retrieve the meta-data for all lists. """
   _ksListsMeta(where: _ksListsMetaInput): [_ListMeta]
