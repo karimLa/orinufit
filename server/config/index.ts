@@ -3,6 +3,7 @@ import { statelessSessions, withItemData } from '@keystone-next/keystone/session
 
 import { getDB, getSecret, getWebUrl } from '../utils/env';
 import lists from '../schemas'
+import { insertSeedData } from '../seed';
 
 const keystoneConfig: KeystoneConfig = {
 	server: {
@@ -13,7 +14,12 @@ const keystoneConfig: KeystoneConfig = {
 	},
 	db: {
 		adapter: 'mongoose',
-		url: getDB()
+		url: getDB(),
+		async onConnect(ctx) {
+			if (process.argv.includes('--seed-data')) {
+				await insertSeedData(ctx)
+			}
+		}
 	},
 	ui: {
 		isAccessAllowed: (context) => !!context.session?.data
