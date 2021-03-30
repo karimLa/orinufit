@@ -1,4 +1,5 @@
 import { FormEvent } from 'react';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 
@@ -50,8 +51,12 @@ function ProductCreate() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    await createProduct();
+    const res = await createProduct();
     clearForm();
+
+    Router.push({
+      pathname: `/product/${res.data.createProduct.id}`,
+    });
   }
 
   return (
