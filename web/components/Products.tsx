@@ -1,9 +1,8 @@
-import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import { IProduct } from '@/types/models';
-import Product from './Product';
+import ProductCard from './ProductCard';
 
 export const ALL_PRODUCTS_QUERY = gql`
   query ALL_PRODUCTS_QUERY {
@@ -23,27 +22,21 @@ export const ALL_PRODUCTS_QUERY = gql`
   }
 `;
 
-type QueryResponse = {
-  allProducts: IProduct[];
-};
-
 const ProductsListStyles = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 60px;
 `;
 
-function Products() {
-  const { data, error, loading } = useQuery<QueryResponse>(ALL_PRODUCTS_QUERY);
+type Props = {
+  products: IProduct[];
+};
 
-  if (loading || !data) return <p>Loading...</p>;
-
-  if (error) return <p>Error: {error.message}</p>;
-
+function Products({ products }: Props) {
   return (
     <ProductsListStyles>
-      {data.allProducts.map((p) => (
-        <Product key={p.id} product={p} />
+      {products.map((p) => (
+        <ProductCard key={p.id} product={p} />
       ))}
     </ProductsListStyles>
   );

@@ -3,8 +3,17 @@ import { GetStaticProps } from 'next';
 
 import { addApolloState, initializeApollo } from '@/lib/apolloClient';
 import Products, { ALL_PRODUCTS_QUERY } from '@/components/Products';
+import { IProduct } from '@/types/models';
 
-export default function OrderPage() {
+type QueryResponse = {
+  allProducts: IProduct[];
+};
+
+type Props = {
+  products: IProduct[];
+};
+
+export default function OrderPage({ products }: Props) {
   return (
     <main>
       <Head>
@@ -12,7 +21,7 @@ export default function OrderPage() {
         <link rel='icon' href='/static/favicon.png' />
       </Head>
 
-      <Products />
+      <Products products={products} />
     </main>
   );
 }
@@ -20,12 +29,14 @@ export default function OrderPage() {
 export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = initializeApollo();
 
-  await apolloClient.query({
+  const { data } = await apolloClient.query<QueryResponse>({
     query: ALL_PRODUCTS_QUERY,
   });
 
   return addApolloState(apolloClient, {
-    props: {},
+    props: {
+      products: data.allProducts,
+    },
     revalidate: 1,
   });
 };
