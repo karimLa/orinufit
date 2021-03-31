@@ -4,10 +4,7 @@ import { GetStaticProps } from 'next';
 import { addApolloState, initializeApollo } from '@/lib/apolloClient';
 import Products, { ALL_PRODUCTS_QUERY } from '@/components/Products';
 import { IProduct } from '@/types/models';
-
-type QueryResponse = {
-  allProducts: IProduct[];
-};
+import { ProductsQueryResponse } from '@/types/queries';
 
 type Props = {
   products: IProduct[];
@@ -29,7 +26,7 @@ export default function OrderPage({ products }: Props) {
 export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = initializeApollo();
 
-  const { data } = await apolloClient.query<QueryResponse>({
+  const { data } = await apolloClient.query<ProductsQueryResponse>({
     query: ALL_PRODUCTS_QUERY,
   });
 
