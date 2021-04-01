@@ -6,6 +6,7 @@ import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 
 import { getEndpoint } from '@/utils/env';
+import paginationField from './paginationField';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
@@ -38,8 +39,7 @@ function createApolloClient() {
 			typePolicies: {
 				Query: {
 					fields: {
-						// TODO: added Fields
-						// allProducts: paginationField(),
+						allProducts: paginationField(),
 					},
 				},
 			},
