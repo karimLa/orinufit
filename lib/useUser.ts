@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 import { AuthResponse } from '@/types/queries';
 
-const CURRENT_ISER_QUERY = gql`
+export const CURRENT_USER_QUERY = gql`
   query {
     authenticatedItem {
       ... on User {
@@ -17,6 +17,6 @@ const CURRENT_ISER_QUERY = gql`
 `;
 
 export default function useUser() {
-	const { data } = useQuery<AuthResponse>(CURRENT_ISER_QUERY);
-	return data?.authenticatedItem;
+  const { data } = useQuery<AuthResponse>(CURRENT_USER_QUERY);
+  return data?.authenticatedItem;
 }
