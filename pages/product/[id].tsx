@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params!.id;
 
   if (!id || Array.isArray(id)) {
+    // TODO(soramon0): check if id is valid
     return {
       notFound: true,
     };
@@ -40,17 +41,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const apolloClient = initializeApollo();
 
-  const { data } = await apolloClient.query<ProductQueryResponse>({
-    query: SINGLE_ITEM_QUERY,
-    variables: { id },
-  });
+  try {
+    const { data } = await apolloClient.query<ProductQueryResponse>({
+      query: SINGLE_ITEM_QUERY,
+      variables: { id },
+    });
 
-  return addApolloState(apolloClient, {
-    props: {
-      product: data.Product,
-    },
-    revalidate: 1,
-  });
+    return addApolloState(apolloClient, {
+      props: {
+        product: data.Product,
+      },
+      revalidate: 1,
+    });
+  } catch {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default ProductPage;
