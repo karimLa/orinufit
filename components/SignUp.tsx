@@ -51,7 +51,7 @@ function SignUp() {
 
   return (
     <Form method='post' onSubmit={handleSubmit}>
-      <h2>Sign Up For An Account</h2>
+      <h2>Sign Up For an Account</h2>
 
       <DisplayError error={err} />
       <fieldset disabled={loading} aria-busy={loading}>
@@ -98,7 +98,7 @@ function SignUp() {
             onChange={onChange}
           />
         </label>
-        <button type='submit'>Sign in!</button>
+        <button type='submit'>Sign Up!</button>
       </fieldset>
     </Form>
   );
