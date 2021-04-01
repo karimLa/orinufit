@@ -30,7 +30,7 @@ function ProductCard({ product }: Props) {
       <p>{product.description}</p>
 
       <div className='buttonList'>
-        <Link href={`product/update?id=${product.id}`}>Edit</Link>
+        <Link href={`/product/update?id=${product.id}`}>Edit</Link>
         <ProductDelete id={product.id}>Delete</ProductDelete>
       </div>
     </ItemStyles>

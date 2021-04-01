@@ -5,8 +5,8 @@ import { IProduct } from '@/types/models';
 import ProductCard from './ProductCard';
 
 export const ALL_PRODUCTS_QUERY = gql`
-  query ALL_PRODUCTS_QUERY {
-    allProducts {
+  query ALL_PRODUCTS_QUERY($skip: Int = 0, $first: Int) {
+    allProducts(skip: $skip, first: $first) {
       id
       name
       price
