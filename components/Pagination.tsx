@@ -32,7 +32,9 @@ function Pagination({ page }: Props) {
   return (
     <PaginationStyles>
       <Head>
-        <title>OrinuFits - Page {page} of ___</title>
+        <title>
+          OrinuFits - Page {page} of {pageCount}
+        </title>
       </Head>
 
       <Link href={`/products/${page - 1}`}>
