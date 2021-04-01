@@ -18,3 +18,9 @@ export type IProduct = {
   status?: 'DRAFT' | 'AVAILABLE' | 'UNAVAILABLE';
   price: number;
 }
+
+export type IUser = {
+  id: string
+  email: string
+  name: string
+}
