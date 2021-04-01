@@ -27,6 +27,10 @@ function ProductCard({ product }: Props) {
       </Title>
       <PriceTag>{formatMoney(product.price)}</PriceTag>
       <p>{product.description}</p>
+
+      <div className='buttonList'>
+        <Link href={`product/update?id=${product.id}`}>Edit</Link>
+      </div>
     </ItemStyles>
   );
 }
