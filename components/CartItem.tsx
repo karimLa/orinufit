@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { ICart } from '@/types/models';
 import formatMoney from '@/utils/formatMoney';
+import CartRemove from './CartRemove';
 
 const CartItemStyles = styled.li`
   padding: 1rem 0;
@@ -44,6 +45,7 @@ function CartItem({ item }: Props) {
           </em>
         </p>
       </div>
+      <CartRemove id={item.id} />
     </CartItemStyles>
   );
 }
