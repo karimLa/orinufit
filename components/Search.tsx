@@ -81,7 +81,7 @@ function Search() {
             <DropDownItem
               key={item.id}
               highlighted={i === highlightedIndex}
-              {...getItemProps({ item })}
+              {...getItemProps({ item, index: i })}
             >
               <div className='img-container'>
                 <Image
