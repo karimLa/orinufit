@@ -7,6 +7,7 @@ import Title from './styles/Title';
 import PriceTag from './styles/PriceTag';
 import formatMoney from '@/utils/formatMoney';
 import ProductDelete from './ProductDelete';
+import CartAdd from './CartAdd';
 
 type Props = {
   product: IProduct;
@@ -31,6 +32,7 @@ function ProductCard({ product }: Props) {
 
       <div className='buttonList'>
         <Link href={`/product/update?id=${product.id}`}>Edit</Link>
+        <CartAdd id={product.id} />
         <ProductDelete id={product.id}>Delete</ProductDelete>
       </div>
     </ItemStyles>
