@@ -19,8 +19,15 @@ export type IProduct = {
   price: number;
 }
 
+export type ICart = {
+  id: string
+  quantity: number
+  product: IProduct
+}
+
 export type IUser = {
   id: string
   email: string
   name: string
+  cart: ICart[]
 }
