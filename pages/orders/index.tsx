@@ -11,6 +11,7 @@ import { addApolloState, initializeApollo } from '@/lib/apolloClient';
 import formatMoney from '@/utils/formatMoney';
 import countItemsInAnOrder from '@/utils/countItemsInAnOrder';
 import OrderItemStyles from '@/components/styles/OrderItemStyles';
+import SignInPlease from '@/components/SignInPlease';
 
 export const ALL_ORDERS_QUERY = gql`
   query {
@@ -50,7 +51,7 @@ const OrderUl = styled.ul`
 
 function OrdersPage({ orders }: Props) {
   return (
-    <div>
+    <SignInPlease>
       <Head>
         <title>Your Orders ({orders.length})</title>
       </Head>
@@ -94,7 +95,7 @@ function OrdersPage({ orders }: Props) {
           );
         })}
       </OrderUl>
-    </div>
+    </SignInPlease>
   );
 }
 
