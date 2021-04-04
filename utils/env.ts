@@ -17,3 +17,8 @@ export function getPerPage() {
 	const env = process.env.NEXT_PUBLIC_PER_PAGE
 	return checkEnv(env || '4', 'NEXT_PUBLIC_PER_PAGE')
 }
+
+export function getStripeKey() {
+	const env = process.env.NEXT_PUBLIC_STRIPE_KEY
+	return checkEnv(env, 'NEXT_PUBLIC_STRIPE_KEY')
+}
