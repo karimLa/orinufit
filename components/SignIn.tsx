@@ -7,7 +7,6 @@ import useForm from '@/lib/useForm';
 import Form from './styles/Form';
 import DisplayError from './ErrorMessage';
 import { CURRENT_USER_QUERY } from '@/lib/useUser';
-import { getFrontend } from '@/utils/env';
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -47,7 +46,6 @@ function SignIn() {
         path: '/',
         secure: prod,
         expires: 30,
-        domain: getFrontend(),
       });
     }
 
