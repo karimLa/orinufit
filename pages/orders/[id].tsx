@@ -9,6 +9,7 @@ import { IOrder } from '@/types/models';
 import { ALL_ORDERS_QUERY } from '.';
 import OrderStyles from '@/components/styles/OrderStyles';
 import formatMoney from '@/utils/formatMoney';
+import SignInPlease from '@/components/SignInPlease';
 
 export const SIGNLE_ORDER_QUERY = gql`
   query SIGNLE_ORDER_QUERY($id: ID!) {
@@ -42,48 +43,50 @@ type Props = {
 
 function SingleOrder({ order }: Props) {
   return (
-    <OrderStyles>
-      <Head>
-        <title>OrinuFits - {order.id}</title>
-      </Head>
-      <p>
-        <span>Order Id:</span>
-        <span>{order.id}</span>
-      </p>
-      <p>
-        <span>Charge:</span>
-        <span>{order.charge}</span>
-      </p>
-      <p>
-        <span>Total:</span>
-        <span>{formatMoney(order.total)}</span>
-      </p>
-      <p>
-        <span>ItemCount:</span>
-        <span>{order.items.length}</span>
-      </p>
-      <div className='items'>
-        {order.items.map((item) => (
-          <div className='order-item' key={item.id}>
-            <div className='img-container'>
-              <Image
-                src={item.photo!.image.publicUrlTransformed}
-                alt={item.photo?.altText}
-                width='240'
-                height='250'
-              />
+    <SignInPlease>
+      <OrderStyles>
+        <Head>
+          <title>OrinuFits - {order.id}</title>
+        </Head>
+        <p>
+          <span>Order Id:</span>
+          <span>{order.id}</span>
+        </p>
+        <p>
+          <span>Charge:</span>
+          <span>{order.charge}</span>
+        </p>
+        <p>
+          <span>Total:</span>
+          <span>{formatMoney(order.total)}</span>
+        </p>
+        <p>
+          <span>ItemCount:</span>
+          <span>{order.items.length}</span>
+        </p>
+        <div className='items'>
+          {order.items.map((item) => (
+            <div className='order-item' key={item.id}>
+              <div className='img-container'>
+                <Image
+                  src={item.photo!.image.publicUrlTransformed}
+                  alt={item.photo?.altText}
+                  width='240'
+                  height='250'
+                />
+              </div>
+              <div className='item-details'>
+                <h2>{item.name}</h2>
+                <p>Quantity: {item.quantity}</p>
+                <p>Each: {formatMoney(item.price)}</p>
+                <p>Sub Total: {formatMoney(item.price * item.quantity)}</p>
+                <p>{item.description}</p>
+              </div>
             </div>
-            <div className='item-details'>
-              <h2>{item.name}</h2>
-              <p>Quantity: {item.quantity}</p>
-              <p>Each: {formatMoney(item.price)}</p>
-              <p>Sub Total: {formatMoney(item.price * item.quantity)}</p>
-              <p>{item.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </OrderStyles>
+          ))}
+        </div>
+      </OrderStyles>
+    </SignInPlease>
   );
 }
 

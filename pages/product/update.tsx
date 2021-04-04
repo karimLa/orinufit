@@ -5,13 +5,18 @@ import ProductUpdate from '@/components/ProductUpdate';
 import { addApolloState, initializeApollo } from '@/lib/apolloClient';
 import { ProductQueryResponse } from '@/types/queries';
 import { IProduct } from '@/types/models';
+import SignInPlease from '@/components/SignInPlease';
 
 type Props = {
   product: IProduct;
 };
 
 function UpdatePage({ product }: Props) {
-  return <ProductUpdate product={product} />;
+  return (
+    <SignInPlease>
+      <ProductUpdate product={product} />
+    </SignInPlease>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
