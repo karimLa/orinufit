@@ -1,16 +1,21 @@
 import { FormEvent } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import Cookie from 'js-cookie';
 
 import useForm from '@/lib/useForm';
 import Form from './styles/Form';
 import DisplayError from './ErrorMessage';
 import { CURRENT_USER_QUERY } from '@/lib/useUser';
+import { getFrontend } from '@/utils/env';
+
+const prod = process.env.NODE_ENV === 'production';
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
     authenticateUserWithPassword(email: $email, password: $password) {
       ... on UserAuthenticationWithPasswordSuccess {
+        sessionToken
         item {
           id
         }
@@ -33,8 +38,22 @@ function SignIn() {
     e.preventDefault();
 
     const { data } = await signin();
+
+    const token = data?.authenticateUserWithPassword?.sessionToken;
+
+    if (token) {
+      Cookie.set('keystonejs-session', token, {
+        sameSite: 'None',
+        path: '/',
+        secure: prod,
+        expires: 30,
+        domain: getFrontend(),
+      });
+    }
+
     if (!data?.authenticateUserWithPassword?.message) {
       resetFrom();
+      return;
     }
   }
 
