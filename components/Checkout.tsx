@@ -90,12 +90,7 @@ function CheckoutForm() {
       });
 
       turnOffLoading();
-
-      router.push({
-        pathname: '/order',
-        query: { id: data?.checkout?.id },
-      });
-
+      router.push(`/orders/${data?.checkout?.id}`);
       closeCart();
     } catch (error) {
       setErr(error);

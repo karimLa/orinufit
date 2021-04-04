@@ -31,3 +31,15 @@ export type IUser = {
   name: string
   cart: ICart[]
 }
+
+export type IOrderItem = IProduct & {
+  quantity: number
+}
+
+export type IOrder = {
+  id: string
+  total: number
+  charge: string
+  user: IUser
+  items: IOrderItem[]
+}

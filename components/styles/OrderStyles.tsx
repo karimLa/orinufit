@@ -28,7 +28,7 @@ const OrderStyles = styled.div`
     grid-gap: 2rem;
     margin: 2rem 0;
     padding-bottom: 2rem;
-    img {
+    .img-container {
       width: 100%;
       height: 100%;
       object-fit: cover;

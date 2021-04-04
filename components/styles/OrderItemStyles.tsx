@@ -17,10 +17,13 @@ const OrderItemStyles = styled.li`
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     margin-top: 1rem;
-    img {
+    .img-container {
       height: 200px;
       object-fit: cover;
       width: 100%;
+      img {
+        object-fit: cover;
+      }
     }
   }
   .order-meta {
