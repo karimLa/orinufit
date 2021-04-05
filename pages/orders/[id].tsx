@@ -1,15 +1,13 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
-import gql from 'graphql-tag';
+import { useQuery, gql } from '@apollo/client';
 
-import { addApolloState, initializeApollo } from '@/lib/apolloClient';
-import { OrdersQuery, OrderQuery } from '@/types/queries';
-import { IOrder } from '@/types/models';
-import { ALL_ORDERS_QUERY } from '.';
+import { OrderQuery } from '@/types/queries';
 import OrderStyles from '@/components/styles/OrderStyles';
 import formatMoney from '@/utils/formatMoney';
 import SignInPlease from '@/components/SignInPlease';
+import DisplayError from '@/components/ErrorMessage';
 
 export const SIGNLE_ORDER_QUERY = gql`
   query SIGNLE_ORDER_QUERY($id: ID!) {
@@ -37,11 +35,16 @@ export const SIGNLE_ORDER_QUERY = gql`
   }
 `;
 
-type Props = {
-  order: IOrder;
-};
+function SingleOrder() {
+  const { query } = useRouter();
+  const { data, error, loading } = useQuery<OrderQuery>(SIGNLE_ORDER_QUERY, {
+    variables: { id: query.id },
+  });
 
-function SingleOrder({ order }: Props) {
+  if (loading) return <p>Loading...</p>;
+  if (error) return <DisplayError error={error} />;
+  const { order } = data!;
+
   return (
     <SignInPlease>
       <OrderStyles>
@@ -89,51 +92,5 @@ function SingleOrder({ order }: Props) {
     </SignInPlease>
   );
 }
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const apolloClient = initializeApollo();
-
-  const { data } = await apolloClient.query<OrdersQuery>({
-    query: ALL_ORDERS_QUERY,
-  });
-
-  const paths = data.allOrders.map((p) => ({ params: { id: p.id } }));
-
-  return addApolloState(apolloClient, {
-    paths,
-    fallback: 'blocking',
-  });
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const id = params!.id;
-
-  if (!id || Array.isArray(id)) {
-    // TODO(soramon0): check if id is valid
-    return {
-      notFound: true,
-    };
-  }
-
-  const apolloClient = initializeApollo();
-
-  try {
-    const { data } = await apolloClient.query<OrderQuery>({
-      query: SIGNLE_ORDER_QUERY,
-      variables: { id },
-    });
-
-    return addApolloState(apolloClient, {
-      props: {
-        order: data.order,
-      },
-      revalidate: 1,
-    });
-  } catch {
-    return {
-      notFound: true,
-    };
-  }
-};
 
 export default SingleOrder;

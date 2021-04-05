@@ -24,7 +24,7 @@ type Props = {
 function Pagination({ page }: Props) {
   const { data, loading, error } = useQuery(PAGINATION_QUERY);
 
-  if (loading || !data) return <p>Loading...</p>;
+  if (loading) return <p>Loading...</p>;
   if (error) return <DisplayError error={error} />;
   const { count } = data._allProductsMeta;
   const pageCount = Math.ceil(count / perPage);

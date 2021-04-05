@@ -1,17 +1,15 @@
-import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import gql from 'graphql-tag';
+import { useQuery, gql } from '@apollo/client';
 import styled from 'styled-components';
 
 import { OrdersQuery } from '@/types/queries';
-import { IOrder } from '@/types/models';
-import { addApolloState, initializeApollo } from '@/lib/apolloClient';
 import formatMoney from '@/utils/formatMoney';
 import countItemsInAnOrder from '@/utils/countItemsInAnOrder';
 import OrderItemStyles from '@/components/styles/OrderItemStyles';
 import SignInPlease from '@/components/SignInPlease';
+import DisplayError from '@/components/ErrorMessage';
 
 export const ALL_ORDERS_QUERY = gql`
   query {
@@ -39,17 +37,19 @@ export const ALL_ORDERS_QUERY = gql`
   }
 `;
 
-type Props = {
-  orders: IOrder[];
-};
-
 const OrderUl = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-gap: 4rem;
 `;
 
-function OrdersPage({ orders }: Props) {
+function OrdersPage() {
+  const { data, loading, error } = useQuery<OrdersQuery>(ALL_ORDERS_QUERY);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <DisplayError error={error} />;
+  const { allOrders: orders } = data!;
+
   return (
     <SignInPlease>
       <Head>
@@ -78,7 +78,7 @@ function OrdersPage({ orders }: Props) {
                   </div>
                   <div className='images'>
                     {order.items.map((item) => (
-                      <div className='img-container'>
+                      <div className='img-container' key={item.id}>
                         <Image
                           key={item.id}
                           src={item.photo!.image.publicUrlTransformed}
@@ -98,20 +98,5 @@ function OrdersPage({ orders }: Props) {
     </SignInPlease>
   );
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  const apolloClient = initializeApollo();
-
-  const { data } = await apolloClient.query<OrdersQuery>({
-    query: ALL_ORDERS_QUERY,
-  });
-
-  return addApolloState(apolloClient, {
-    props: {
-      orders: data.allOrders,
-    },
-    revalidate: 1,
-  });
-};
 
 export default OrdersPage;
